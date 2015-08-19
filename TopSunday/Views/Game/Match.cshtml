@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "Match";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+<script src="~/Scripts/bootstrap-rating-input.min.js"></script>
+
+<h2>Match</h2>
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr><th>Jogador</th>
+                <th>Estrelas</th>
+            </tr>
+            
+
+        </thead>
+        <tbody>
+
+            @{List<TopSunday.Models.Player> list = new List<TopSunday.Models.Player>();
+            list = ViewBag.Team; }
+
+            {@foreach (TopSunday.Models.Player p in list)
+            {
+                <tr>
+                    <td style="width:10% !important">
+                        @p.Name
+                    </td>
+                    <td><input type="number" name="your_awesome_parameter" id="lbrate" class="rating" data-clearable="remove" /></td>
+                </tr>
+            }
+
+            }
+
+        </tbody>
+
+    </table>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#lbRate').on('change', function () {
+            alert("Changed: " + $(this).val())
+        });
+
+    });
+</script>

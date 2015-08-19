@@ -12,6 +12,9 @@ namespace TopSunday.Models
         public int ID { get; set; }
         public string Name { get; set; }
         public int Stars { get; set; }
-        public int GamesCounter { get; set; }
+        public int PlayedGames { get; set; }
+        public int Wins { get; set; }
+        public int Looses { get; set; }
+        public bool Win { get; set; }
     }
 }
