@@ -1,0 +1,331 @@
+﻿@model TopSunday.ViewModels.GamesViewModel
+@using TopSunday.SpecificObjects
+@using TopSunday.Models
+@using TopSunday.Controllers
+@{
+    Layout = "~/Views/Shared/_LayoutResume.cshtml";
+}
+
+<style>
+    div.container {
+        background: transparent;
+    }
+
+    div.lockframe {
+        z-index: -2;
+    }
+
+    .textWhite {
+        color: whitesmoke;
+    }
+
+    .names {
+        color: whitesmoke;
+        font-size: medium;
+        font-family: Calibri;
+    }
+
+    th {
+    }
+</style>
+
+<!DOCTYPE html>
+
+<html>
+
+<body>
+
+
+
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+
+        @if (Model.HasTeams.Equals(true))
+        {
+            <div class="row">
+                <div class="col-xs-12 col-md-12 col-lg-6">
+
+                    <div class="container">
+                        <iframe id="teamA" class="lockframe" width="354" height="526" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="@Model.LinkTeamA"></iframe>
+
+                    </div>
+
+                </div>
+                <div class="col-xs-12 col-md-12 col-lg-6">
+                    <div class="container">
+                        <iframe id="teamB" class="lockframe" width="354" height="526" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="@Model.LinkTeamB"></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="container">
+                    <form id="frmGoals" action="@Url.Action("InsertGoals","Game")" method="post">
+                        @Html.HiddenFor(m => m.Season)
+                        @Html.HiddenFor(m => m.GameType)
+                        <div class="col-xs-6">
+                            @{
+                                for (int i = 0; i < Model.GoalsTeamA.Count(); i++)
+                                {
+                                    <div class="row">
+                                        @Html.HiddenFor(m => Model.GoalsTeamA[i].PlayerID)
+                                        @Html.HiddenFor(m => Model.GoalsTeamA[i].Win)
+                                        @Html.HiddenFor(m => Model.GoalsTeamA[i].Lose)
+                                        @Html.HiddenFor(m => Model.GoalsTeamA[i].Draw)
+                                        @Html.LabelForModel(Model.GoalsTeamA[i].PlayerName, new { @class = "names" })
+                                        @Html.TextBoxFor(m => Model.GoalsTeamA[i].Goals, new { @class = "form-control", @type = "number" })
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <div class="col-xs-6">
+                            @{
+                                for (int i = 0; i < Model.GoalsTeamB.Count(); i++)
+                                {
+                                    <div class="row">
+                                        @Html.HiddenFor(m => Model.GoalsTeamB[i].PlayerID)
+                                        @Html.HiddenFor(m => Model.GoalsTeamB[i].Win)
+                                        @Html.HiddenFor(m => Model.GoalsTeamB[i].Lose)
+                                        @Html.HiddenFor(m => Model.GoalsTeamB[i].Draw)
+                                        @Html.LabelForModel(Model.GoalsTeamB[i].PlayerName, new { @class = "names" })
+                                        @Html.TextBoxFor(m => Model.GoalsTeamB[i].Goals, new { @class = "form-control", @type = "number" })
+                                    </div>
+                                }
+                            }
+
+                        </div>
+                        <div class="row" style="margin-top:5px;">
+                            <button type="submit" class="btn btn-primary btn-sm">Fechar Jogo</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+                                }
+                                else
+                                {
+
+                                    <h2 class="dt-head-center" style="color:whitesmoke; font-size:larger">Convocatória</h2>
+                                    <hr />
+                                    <div class="row">
+
+                                        <div>
+                                            <form id="myForm" action="@Url.Action("SetFinalteams","Game")" method="post">
+                                                @Html.HiddenFor(m => m.Season)
+                                                @Html.HiddenFor(m => m.GameType)
+                                                <table class="table" cellpadding="0" cellspacing="0">
+                                                    <tr>
+                                                        <th style="display:none"></th>
+                                                        <th style="background-color: whitesmoke; color: black; font-style:italic; text-decoration:underline">
+                                                            Jogador
+                                                        </th>
+                                                        <th style="background-color: whitesmoke; color: black; font-style:italic; text-decoration:underline">
+                                                            Tipo
+                                                        </th>
+                                                        <th style="background-color: whitesmoke; color: black; font-style:italic; text-decoration:underline">
+
+                                                        </th>
+
+                                                    </tr>
+
+                                                    @for (int i = 0; i < @Model.PlayerConfirmations.Count(); i++)
+                                                    {
+
+
+
+                                                        <tr>
+                                                            <td style="display:none">
+                                                                @Html.HiddenFor(m => Model.PlayerConfirmations[i].PlayerID)
+                                                            </td>
+                                                            <td class="textWhite">
+                                                                @Html.LabelForModel(Model.PlayerConfirmations[i].PlayerName)
+                                                            </td>
+
+                                                            @if (Model.PlayerConfirmations[i].IsSubstitute)
+                                                            {
+                                                                <td class="textWhite">
+                                                                    @Html.HiddenFor(m => Model.PlayerConfirmations[i].IsSubstitute)
+                                                                    Substituto
+                                                                </td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td class="textWhite">
+                                                                    @Html.HiddenFor(m => Model.PlayerConfirmations[i].IsSubstitute)
+                                                                    Fixo
+                                                                </td>
+                                                            }
+                                                            <td>
+                                                                @Html.CheckBoxFor(m => Model.PlayerConfirmations[i].GoToGame, new { @id = "chk_Vai_" + @Model.PlayerConfirmations[i].PlayerID })
+                                                            </td>
+                                                        </tr>
+
+                                                    }
+
+                                                </table>
+
+                                                <input type="submit" class="btn btn-danger" *@ value="Fechar Convocatória" />
+                                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">Adicionar Jogador</button>
+
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <div id="myModal" class="modal fade" role="dialog">
+                                        <div class="modal-dialog">
+
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <h4 class="modal-title">Adicionar Jogador</h4>
+                                                </div>
+                                                <form action="@Url.Action(" Teste","Game")" method="post">
+                                                    <div class="modal-body">
+
+                                                        <div class="form-group">
+                                                            <div class="form-horizontal">
+                                                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                                                <div class="form-group">
+                                                                    @Html.LabelFor(model => model.NewPlayer.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                                    <div class="col-md-10">
+                                                                        @Html.EditorFor(model => model.NewPlayer.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                                                        @Html.ValidationMessageFor(model => model.NewPlayer.Name, "", new { @class = "text-danger" })
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    @Html.LabelFor(model => model.NewPlayer.Sunday, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                                    <div class="col-md-10">
+                                                                        @Html.CheckBoxFor(model => model.NewPlayer.Sunday, new { htmlAttributes = new { @class = "form-control" } })
+                                                                        @Html.ValidationMessageFor(model => model.NewPlayer.Sunday, "", new { @class = "text-danger" })
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    @Html.LabelFor(model => model.NewPlayer.Wednesday, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                                    <div class="col-md-10">
+                                                                        @Html.CheckBoxFor(model => model.NewPlayer.Wednesday, new { htmlAttributes = new { @class = "form-control" } })
+                                                                        @Html.ValidationMessageFor(model => model.NewPlayer.Wednesday, "", new { @class = "text-danger" })
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    @Html.LabelFor(model => model.NewPlayer.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                                    <div class="col-md-10">
+                                                                        @Html.EditorFor(model => model.NewPlayer.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                                                        @Html.ValidationMessageFor(model => model.NewPlayer.Email, "", new { @class = "text-danger" })
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    @Html.LabelFor(model => model.NewPlayer.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                                    <div class="col-md-10">
+                                                                        @Html.EditorFor(model => model.NewPlayer.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                                                        @Html.ValidationMessageFor(model => model.NewPlayer.PhoneNumber, "", new { @class = "text-danger" })
+                                                                    </div>
+                                                                </div>
+
+                                                                @Html.HiddenFor(m => m.Season)
+                                                                @Html.HiddenFor(m => m.GameType)
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                                                        <button type="submit" class="btn btn-info">Adicionar</button>
+
+                                                    </div>
+                                                </form>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                }
+    </div>
+</body>
+</html>
+<script>
+
+    function AddPlayer() {
+
+    }
+
+    $('input[type=checkbox]').change(function (chk) {
+
+        var thisChk = $(this)[0];
+        var thisChkID = $(this)[0].id;
+        var jqueryChkId = $('#' + thisChkID);
+        var thisPlayerID = thisChkID.split('_')[2];
+
+
+
+        var numberOfCheckedRadio = $('input:checkbox:checked').length;
+
+
+        if (numberOfCheckedRadio <= 10) {
+
+            if (jqueryChkId[0].checked) {
+
+
+            }
+            else {
+
+                //todos os que nao estao checkados passam a enabled
+                //verificar se nao sao os que estao ao lado dos checkados
+
+
+                $("input:checkbox:not(:checked)").each(function myfunction() {
+
+                    var chkId = $(this)[0].id;
+                    var thisID = chkId.split('_')[2];
+
+                    var chkVai = $('#chk_Vai_' + thisID);
+
+                    var chkVaiChecked = $('#' + chkVai[0].id)[0].checked;
+
+
+                    if (!chkVaiChecked) {
+
+                        $('#' + chkVai[0].id)[0].disabled = false;
+
+
+                    }
+
+
+                });
+            }
+
+            if (numberOfCheckedRadio == 10) {
+
+                $("input:checkbox:not(:checked)").each(function myfunction() {
+
+                    var chkId = $(this)[0].id;
+                    var thisID = $('#' + chkId);
+
+                    if (thisID.is('disabled') == false) {
+
+                        thisID.attr('disabled', 'disabled');
+
+                    }
+
+
+                });
+            }
+        }
+
+    });
+
+    $(document).ready(function () {
+
+
+        $('iframe').click(function (event) {
+            alert("demo only");
+            event.preventDefault();
+
+        });
+    });
+
+</script>

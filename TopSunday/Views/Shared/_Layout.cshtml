@@ -1,44 +1,121 @@
 ﻿<!DOCTYPE html>
+<style>
+    .carousel {
+        height: 25%;
+    }
+
+    .bgcolorLandingImages {
+        background-color: whitesmoke !important;
+    }
+</style>
+
 <html>
 <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    @*<link href="~/Content/half-slider.css" rel="stylesheet" />*@
+    <link href="~/Content/landing-page.css" rel="stylesheet" />
+    @*<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">*@
+
     @Scripts.Render("~/bundles/modernizr")
 
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
 </head>
+
+
+
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
+    <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+        <div class="container topnav">
+            <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <i class="fa fa-facebook fa-fw"></i>
+                <b><a class="navbar-brand topnav" href="@Url.Action("Index","Home")"><u>#aBolaMexe</u></a></b>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="@Url.Action("AddPlayer","Player")">Jogadores</a>
+                    </li>
+                    <li>
+                        <a href="#">Gestão</a>
+                    </li>
+                    <li>
+                        <a href="#"></a>
+                    </li>
                 </ul>
-                @Html.Partial("_LoginPartial")
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    <div class="intro-header" id="introHeader">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="intro-message">
+                        <h1>LIGA DA VERDADE</h1>
+                        <h3>2016/2017</h3>
+                        <hr class="intro-divider">
+                        @*<div>
+                                <img src="~/img/gif1.gif" class="img*responsive" width="150" height="150" style="border-radius: 5px; border: 1px solid whitesmoke;">
+                            </div>*@
+                        <br />
+                        <hr class="intro-divider">
+                        <ul class="list-inline intro-social-buttons">
+                            <li>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <a href="@Url.Action("Resume", "Game", new {@season="2016/2017", @gameType="Wednesday" })" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i><span class="network-name">Quartas</span></a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <a href="@Url.Action("Resume", "Game",new {@season="2016/2017", @gameType="Sunday" })" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i><span class="network-name">Domingos</span></a>
+                                </div>
+                            </li>
+                        </ul>
+                        <hr class="intro-divider">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-12">
+                @RenderBody()
+            </div>
+        </div>
+
+
+        <!-- Footer -->
+
     </div>
 
-    @*@Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")*@
-    @RenderSection("scripts", required: false)
 </body>
 </html>
+
+@*<script>
+    $('.carousel').carousel({
+        interval: 5000 //changes the speed
+    })
+
+    $('div.teamFoot').hide();
+
+    </script>*@

@@ -1,0 +1,44 @@
+﻿
+@{
+    Layout = null;
+}
+
+
+<style>
+    .bodyReume {
+        background-image: url('http://fullhdpictures.com/wp-content/uploads/2016/02/Champions-League-Desktop.jpg');
+    }
+</style>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    @Styles.Render("~/Content/css")
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+    @Scripts.Render("~/bundles/modernizr")
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</head>
+
+<body class="bodyReume">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-12">
+                @RenderBody()
+            </div>
+        </div>
+
+
+        <!-- Footer -->
+
+    </div>
+</body>
+</html>
